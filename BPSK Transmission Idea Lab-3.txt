@@ -1,0 +1,23 @@
+1. Use BPSK for transmission.
+2. Use 1 as the START bit.
+3. Generate 10 random data bits after the START bit.
+4. Map the bits using BPSK:
+   1 -> +1
+   0 -> -1
+5. Transmit each bit using 100 samples.
+6. At the receiver, initially there is only noise, so the received magnitude is low.
+7. When transmission starts, the received magnitude becomes higher than the noise level. Detect this point as the start of transmission.
+8. From the detected start point:
+   First 100 samples -> START bit
+   Next 100 samples -> Data bit 1
+   Next 100 samples -> Data bit 2
+   Continue until all 10 data bits are decoded.
+9. For each 100-sample bit, decode every sample individually:
+   Positive real part -> 1
+   Negative real part -> 0
+10. Count the number of 1s and 0s among the 100 samples. Select the bit with the higher count as the decoded bit.
+11. Use the known START bit to estimate the frequency offset and initial phase, then apply frequency and phase correction before final bit decoding.
+12. Compare the 10 transmitted random bits with the 10 received decoded bits.
+13. Calculate BER:
+    BER = Number of bit errors / Total number of transmitted data bits
+14. Plot the transmitted TX bits and received RX decoded bits to visually compare them.
